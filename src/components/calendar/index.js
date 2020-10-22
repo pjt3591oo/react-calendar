@@ -5,16 +5,9 @@ import {
   daysMap, getCountDaysByMonth
 } from '../../utils/date';
 
-import Cell from './cell';
 import Nav from './nav';
-
-// TODO: containerStyle로 묶은 DOM 컴포넌트 분리
-const containerStyle = {
-  width: "100%", 
-  display: "flex", 
-  flexWrap: "wrap", 
-  textAlign: "center"
-}
+import Row from './row';
+import Cell from './cell';
 
 const Calendar = props => {
   let d = getToday()
@@ -22,9 +15,12 @@ const Calendar = props => {
   let [startDay, setStartDay] = useState(getFirstDayByMonth(d[0]));
   let [daysCnt, setDaysCnt] = useState(getCountDaysByMonth(d[0]));
   
+  let [ dragRange, setDragRange ] = useState([4, 8]); // 드레그 [시작, 끝]
+
   useEffect(() => {
     setStartDay(getFirstDayByMonth(focusDate[0]));
     setDaysCnt(getCountDaysByMonth(focusDate[0]));
+    setDragRange([-1, -1]);
   }, [focusDate])
   
   let days = [...Array(daysCnt + startDay).keys()]
@@ -36,6 +32,23 @@ const Calendar = props => {
     setFocusDate(nextDate)
   }
 
+  const onDragStart = (startDay) => {
+    setDragRange([startDay, -1])
+  }
+
+  const onDragEnd = (endDay) => {
+    let temp = [...dragRange]
+    if (dragRange[0] <= endDay) {
+      console.log(1)
+      temp[1] = endDay
+    }else {
+      console.log(2)
+      temp = [endDay].concat([temp[0]])
+    }
+    console.log(temp)
+    setDragRange(temp)
+  }
+
   return (
     <>
       <Nav
@@ -44,18 +57,25 @@ const Calendar = props => {
         onClickByNextHandler = {onClickByNextHandler}
       />
       
-      <div style={containerStyle}>
+      <Row>
         {daysMap.map((day, idx) => (
           <Cell idx={idx}>{day}</Cell>
         ))}
-      </div>
+      </Row>
 
-      <div style={containerStyle}>
+      <Row>
         {days.map((item, idx) => (
           <>
             {startDay <= (idx + 1) 
               ? (
-                <Cell idx={idx}>{idx-startDay + 1}</Cell>
+                <Cell 
+                  idx={idx} 
+                  hover={true}
+                  startDay={startDay}
+                  dragRange={dragRange}
+                  onDragStart={onDragStart}
+                  onDragEnd={onDragEnd}
+                >{idx-startDay + 1}</Cell>
               ) 
               : (
                 <Cell idx={idx}></Cell>
@@ -63,7 +83,7 @@ const Calendar = props => {
             }
           </>
         ))}
-      </div>
+      </Row>
     </>
   );
 };
