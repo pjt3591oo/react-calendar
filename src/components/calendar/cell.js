@@ -27,7 +27,7 @@ const isRange = (props) => {
     && props.idx >= props.dragRange[0] + props.startDay - 1
     && props.idx <= props.dragRange[1] + props.startDay - 1
   ) {
-    return "red"
+    return "#e8e8e8"
   }
 
   return "";
@@ -41,7 +41,7 @@ const _Cell = styled.div`
   font-weight: 900;
   background-color: ${props => props.hover ? isRange(props) : ""};
   &:hover{
-    background-color: ${(props) => props.hover ? "#EFEFEF" : ""};
+    background-color: ${(props) => props.hover ? "#f6f4f1" : ""};
   }
 `
 

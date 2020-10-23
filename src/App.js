@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-import Calendar from './components/calendar';
+import CalendarModal from './components/templetes/calendarModal';
 
 function App() {
+  let [d, setD] = useState("");
+  
   return (
     <div className="App">
-      <Calendar />
+      <CalendarModal value={d} onChange={(d)=>setD(d)}/>
+      <h1>{d}</h1>
     </div>
   );
 }

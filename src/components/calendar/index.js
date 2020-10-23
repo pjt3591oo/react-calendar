@@ -39,18 +39,24 @@ const Calendar = props => {
   const onDragEnd = (endDay) => {
     let temp = [...dragRange]
     if (dragRange[0] <= endDay) {
-      console.log(1)
       temp[1] = endDay
     }else {
-      console.log(2)
       temp = [endDay].concat([temp[0]])
     }
-    console.log(temp)
     setDragRange(temp)
   }
 
+  const onSelectDate = (e) => {
+    console.log(focusDate)
+    let splited = focusDate[0].split('-')
+
+    splited[2] = parseInt(e.target.textContent) < 10 ? `0${e.target.textContent}`: e.target.textContent
+    props.onSelectDate(splited.join('-'));
+  }  
+
+
   return (
-    <>
+    <div style={{ backgroundColor: "#FFFBD5" }}>
       <Nav
         focusDate={focusDate}
         onClickByPrevHandler = {onClickByPrevHandler}
@@ -75,6 +81,7 @@ const Calendar = props => {
                   dragRange={dragRange}
                   onDragStart={onDragStart}
                   onDragEnd={onDragEnd}
+                  onClick={onSelectDate}
                 >{idx-startDay + 1}</Cell>
               ) 
               : (
@@ -84,7 +91,7 @@ const Calendar = props => {
           </>
         ))}
       </Row>
-    </>
+    </div>
   );
 };
 
