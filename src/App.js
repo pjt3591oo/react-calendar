@@ -10,7 +10,7 @@ function App() {
   const [selectDate, setSelectDate] = useState(getToday());
   const [selectDates, setSelectDates] = useState([]);
   
-  const [beforeDisablePoint] = useState("2020-11-11");
+  const [beforeDisablePoint] = useState(selectDate[0]);
   const [afterDisablePoint] = useState("2020-11-21");
   const [disableDates] = useState([]);
 
