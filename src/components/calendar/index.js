@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  getToday, getFirstDayByMonth,
-  daysMap, getCountDaysByMonth
+  getFirstDayByMonth,
+  daysMap, getCountDaysByMonth,
+  format_YYYYMMDD,
+  leftBig
 } from '../../utils/date';
 
 import Nav from './nav';
@@ -10,33 +12,31 @@ import Row from './row';
 import Cell from './cell';
 
 const Calendar = props => {
-  let d = getToday()
-  let [focusDate, setFocusDate] = useState(d);
-  let [startDay, setStartDay] = useState(getFirstDayByMonth(d[0]));
-  let [daysCnt, setDaysCnt] = useState(getCountDaysByMonth(d[0]));
+  let [focusDate, setFocusDate] = useState(props.selectDate);
+  let [startDay, setStartDay] = useState(getFirstDayByMonth(props.selectDate[0]));
+  let [daysCnt, setDaysCnt] = useState(getCountDaysByMonth(props.selectDate[0]));
   
-  let [ dragRange, setDragRange ] = useState([4, 8]); // 드레그 [시작, 끝]
-
+  let [ dragRange, setDragRange ] = useState([-1, -1]); // 드레그 [시작, 끝]
+ 
   useEffect(() => {
     setStartDay(getFirstDayByMonth(focusDate[0]));
     setDaysCnt(getCountDaysByMonth(focusDate[0]));
     setDragRange([-1, -1]);
+    props.onSelectDate(focusDate)
   }, [focusDate])
   
+  useEffect(() => {
+    _isDragEnd()
+      && !_isClick() 
+      && props.onSelectDates(dragRange.map(day => _converDate(day)));
+  }, [dragRange])
+
   let days = [...Array(daysCnt + startDay).keys()]
 
-  const onClickByPrevHandler = (prevDate) => {
-    setFocusDate(prevDate)
-  }
-  const onClickByNextHandler = (nextDate) => {
-    setFocusDate(nextDate)
-  }
-
-  const onDragStart = (startDay) => {
-    setDragRange([startDay, -1])
-  }
-
-  const onDragEnd = (endDay) => {
+  const onClickByPrevHandler = prevDate => setFocusDate(prevDate)
+  const onClickByNextHandler = nextDate => setFocusDate(nextDate)
+  const onDragStartHandler = startDay => setDragRange([startDay, -1])
+  const onDragEndHandler = endDay => {
     let temp = [...dragRange]
     if (dragRange[0] <= endDay) {
       temp[1] = endDay
@@ -46,14 +46,25 @@ const Calendar = props => {
     setDragRange(temp)
   }
 
-  const onSelectDate = (e) => {
-    console.log(focusDate)
-    let splited = focusDate[0].split('-')
+  const onSelectDate = day => {
+    let temp = [...focusDate];
+    temp[0] = _converDate(day);
+    setFocusDate(temp);
+  }
 
-    splited[2] = parseInt(e.target.textContent) < 10 ? `0${e.target.textContent}`: e.target.textContent
-    props.onSelectDate(splited.join('-'));
-  }  
+  const _converDate = _day => {
 
+    let [year, month] = focusDate[0].split('-').slice(0, 2)
+    return format_YYYYMMDD(year, month, _day);
+  }
+
+  const _isDisable = _day => {
+    let is = leftBig(props.beforeDisablePoint, _converDate(_day))
+    return is
+  }
+
+  const _isClick = () => dragRange[0] === dragRange[1]
+  const _isDragEnd = () => dragRange[0] > -1  && dragRange[1] > -1
 
   return (
     <div style={{ backgroundColor: "#FFFBD5" }}>
@@ -65,13 +76,17 @@ const Calendar = props => {
       
       <Row>
         {daysMap.map((day, idx) => (
-          <Cell idx={idx}>{day}</Cell>
+          <Cell 
+            key={idx} 
+            idx={idx}
+            header={true}
+          >{day}</Cell>
         ))}
       </Row>
 
       <Row>
         {days.map((item, idx) => (
-          <>
+          <React.Fragment key={idx}>
             {startDay <= (idx + 1) 
               ? (
                 <Cell 
@@ -79,20 +94,21 @@ const Calendar = props => {
                   hover={true}
                   startDay={startDay}
                   dragRange={dragRange}
-                  onDragStart={onDragStart}
-                  onDragEnd={onDragEnd}
-                  onClick={onSelectDate}
+                  disable={_isDisable( idx-startDay + 1)}
+                  onDragStart={onDragStartHandler}
+                  onDragEnd={onDragEndHandler}
+                  onSelectDate={onSelectDate}
                 >{idx-startDay + 1}</Cell>
               ) 
               : (
-                <Cell idx={idx}></Cell>
+                <Cell idx={idx} disable={false}></Cell>
               )
             }
-          </>
+          </React.Fragment>
         ))}
       </Row>
     </div>
   );
 };
 
-export default Calendar;
+export default React.memo(Calendar);

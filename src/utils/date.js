@@ -6,6 +6,7 @@ import addMonths from 'date-fns/addMonths';
 import sunMonths from 'date-fns/subMonths';
 
 import format from 'date-fns/format';
+import compareAsc from 'date-fns/compareAsc';
 
 import { ko } from 'date-fns/locale';
 
@@ -50,4 +51,19 @@ export function getNextMonthDate(focusDate) {
   let nextDate = addMonths(new Date(focusDate), 1)
   let convertedFormat = format(nextDate, FORMAT_DATE, {locale: ko});
   return [convertedFormat, getDay(nextDate)];
+}
+
+// 포맷 변환
+export function format_YYYYMMDD(y, m, d) {
+  return format(new Date(y, m-1, d), FORMAT_DATE);
+}
+
+// 크기비교 source < target true
+export function rightBig ( source, target) {
+  return compareAsc(new Date(source), new Date(target)) === -1
+}
+
+// 크기비교 source > target false
+export function leftBig ( source, target) {
+  return compareAsc(new Date(source), new Date(target)) !== -1
 }

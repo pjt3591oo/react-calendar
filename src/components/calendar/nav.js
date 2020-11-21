@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
-  daysMap, 
+  daysMap,
   getPrevMonthDate, getNextMonthDate
 } from '../../utils/date';
 
@@ -14,7 +14,7 @@ const buttonStyle = {
   boxSizing: "border-box",
   padding: 10,
   backgroundColor: "#e8e8e8",
-  border: 0, 
+  border: 0,
   marginLeft: 10,
   width: 36,
   height: 36,
@@ -22,7 +22,15 @@ const buttonStyle = {
   cursor: "pointer"
 }
 
-
+const wrapStyle = {
+  width: "100%", 
+  display: "flex", 
+  justifyContent: "space-between", 
+  paddingLeft: 23, 
+  paddingRight: 23,
+  paddingBottom: 10, 
+  marginTop: 10 
+}
 
 // 현재날짜, 방향버튼
 const Nav = (props) => {
@@ -34,20 +42,22 @@ const Nav = (props) => {
   }
 
   return (
-    <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
-      <div style={dateStyle}>
-        {props.focusDate[0]} ({daysMap[props.focusDate[1]]})
-      </div>
-
+    <div style={wrapStyle}>
       <div>
-        <button 
+        <button
           style={buttonStyle}
           onClick={onClickByPrevHandler}
         >
           {"<"}
         </button>
+      </div>
 
-        <button 
+      <div style={dateStyle}>
+        {props.focusDate[0]} ({daysMap[props.focusDate[1]]})
+      </div>
+
+      <div>
+        <button
           style={buttonStyle}
           onClick={onClickByNextHandler}
         >

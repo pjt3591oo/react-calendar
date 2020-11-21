@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styled from 'styled-components';
 
@@ -33,46 +33,54 @@ const isRange = (props) => {
   return "";
 }
 
-const _Cell = styled.div`
+const CellForm = styled.div`
   width : ${100 / 7}%;
   padding: 35px;
   box-sizing: border-box;
   color: ${(props) => getColos(props.idx)};
   font-weight: 900;
-  background-color: ${props => props.hover ? isRange(props) : ""};
+  background-color: ${props => props.hover && !props.disable ? isRange(props) : !props.header? "#242424": ""};
   &:hover{
-    background-color: ${(props) => props.hover ? "#f6f4f1" : ""};
+    background-color: ${(props) => props.hover && !props.disable ? "#f6f4f1" : "black"};
   }
 `
 
-
 const Cell = (props) => {
-
-  const onDragStart = (e) => {
+  const onDragStart = e => {
+    if (props.disable) {msg(); return}
     props.onDragStart(parseInt(e.target.textContent))
   }
-
-  const onDragEnd = (e) => {
-    props.onDragEnd(parseInt(e.target.textContent))
+  const onDragEnd = e => {
+    if (props.disable) {msg(); return}
+    props.onDragEnd(parseInt(e.target.textContent)) 
   }
+
+  const onClick= e => {
+    if (props.disable) {msg(); return}
+    props.onSelectDate(e.target.textContent)
+  }
+
+  const msg = () =>alert("해당 날짜는 선택할 수 없습니다.");
+  
 
   if (props.hover) {
     return (
-      <_Cell
+      <CellForm
         {...props}
         onMouseUp={onDragEnd}
         onMouseDown={onDragStart}
+        onClick={onClick}
       >
         {props.children || " "}
-      </_Cell>
+      </CellForm>
     )
   }
   return (
-    <_Cell
+    <CellForm
       {...props}
     >
       {props.children || " "}
-    </_Cell>
+    </CellForm>
   )
 }
 

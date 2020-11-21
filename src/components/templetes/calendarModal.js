@@ -1,17 +1,12 @@
-import { parseWithOptions } from 'date-fns/fp';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Calendar from '../calendar';
 
 function CalendarModal(props) {
-  let [ selectDate, setSelectDate ] = useState('');
+  
   let [ isShow, setIsShow ] = useState(false);
 
-  useEffect(() => {
-    props.onChange(selectDate);
-  }, [selectDate])
-
-  const s = {
+  const wrapStyle = {
     borderRadius: 5, 
     padding: 5,
     boxSizing: "border-box",
@@ -23,13 +18,19 @@ function CalendarModal(props) {
   }
 
   return (
-    <div className="App">
-      <div style={s}>
-        <Calendar onSelectDate={(selectDate) => setSelectDate(selectDate)}/>
+    <div>
+      <div style={wrapStyle}>
+        <Calendar 
+          onSelectDate={props.onSelectDate}
+          onSelectDates={props.onSelectDates}
+          selectDate={props.selectDate}
+          beforeDisablePoint={props.beforeDisablePoint}
+          afterDisablePoint={props.afterDisablePoint}
+        />
       </div>
 
       <div>
-        <input type="date" value={selectDate}/>
+        <input type="date" value={props.selectDate}/>
         <button onClick={() => setIsShow(!isShow)}>달력보기</button>
       </div>
     </div>
