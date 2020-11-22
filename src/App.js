@@ -31,8 +31,8 @@ function App() {
         onSelectDates={dates => setSelectDates(dates)}
         selectDate={selectDate}
         beforeDisablePoint={beforeDisablePoint}
-        afterDisablePoint={afterDisablePoint}
-        disableDates={disableDates}
+        // afterDisablePoint={afterDisablePoint}
+        // disableDates={disableDates}
       />
 
       <h1>{selectDate[0]}</h1>
