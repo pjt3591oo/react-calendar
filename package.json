@@ -13,7 +13,7 @@
     "react-scripts": "3.4.4",
     "styled-components": "^5.2.0"
   },
-  "homepage": "https://github.com/pjt3591oo/react-calendar",
+  "homepage": "https://pjt3591oo.github.io/react-calendar",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
