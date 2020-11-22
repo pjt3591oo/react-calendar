@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import styled from 'styled-components';
+
 import {
   getFirstDayByMonth,
   daysMap, getCountDaysByMonth,
@@ -9,7 +11,9 @@ import {
 
 import Nav from './nav';
 import Row from './row';
-import Cell from './cell';
+import Cell, {EmptyCell} from './cell';
+
+
 
 const Calendar = props => {
   let [focusDate, setFocusDate] = useState(props.selectDate);
@@ -47,18 +51,19 @@ const Calendar = props => {
   }
 
   const onSelectDate = day => {
+    if(!day) return
     let temp = [...focusDate];
     temp[0] = _converDate(day);
     setFocusDate(temp);
   }
 
   const _converDate = _day => {
-
     let [year, month] = focusDate[0].split('-').slice(0, 2)
     return format_YYYYMMDD(year, month, _day);
   }
 
   const _isDisable = _day => {
+    if (!props.beforeDisablePoint) return false;
     let is = leftBig(props.beforeDisablePoint, _converDate(_day))
     return is
   }
@@ -67,7 +72,11 @@ const Calendar = props => {
   const _isDragEnd = () => dragRange[0] > -1  && dragRange[1] > -1
 
   return (
-    <div style={{ backgroundColor: "#FFFBD5" }}>
+    <div style={{ 
+      backgroundColor: '#FAFAFA',
+      padding: 10,
+      boxSizing: 'border-box',
+    }}>
       <Nav
         focusDate={focusDate}
         onClickByPrevHandler = {onClickByPrevHandler}
@@ -87,7 +96,7 @@ const Calendar = props => {
       <Row>
         {days.map((item, idx) => (
           <React.Fragment key={idx}>
-            {startDay <= (idx + 1) 
+            {startDay <= (idx) 
               ? (
                 <Cell 
                   idx={idx} 
@@ -101,7 +110,7 @@ const Calendar = props => {
                 >{idx-startDay + 1}</Cell>
               ) 
               : (
-                <Cell idx={idx} disable={false}></Cell>
+                <EmptyCell />
               )
             }
           </React.Fragment>

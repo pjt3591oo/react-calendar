@@ -4,7 +4,7 @@ import Calendar from '../calendar';
 
 function CalendarModal(props) {
   
-  let [ isShow, setIsShow ] = useState(false);
+  let [ isShow, setIsShow ] = useState(true);
 
   const wrapStyle = {
     borderRadius: 5, 

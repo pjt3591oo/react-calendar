@@ -15,7 +15,6 @@ const buttonStyle = {
   padding: 10,
   backgroundColor: "#e8e8e8",
   border: 0,
-  marginLeft: 10,
   width: 36,
   height: 36,
   borderRadius: 5,
@@ -26,8 +25,7 @@ const wrapStyle = {
   width: "100%", 
   display: "flex", 
   justifyContent: "space-between", 
-  paddingLeft: 23, 
-  paddingRight: 23,
+
   paddingBottom: 10, 
   marginTop: 10 
 }
