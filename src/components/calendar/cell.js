@@ -27,18 +27,18 @@ const getColos = (props) => {
   }
 }
 
-const isRange = (props) => {
+const isSelect = (props) => {
+  return props.isSelect ? COLOR_SELECT : "";
+  // if (
+  //   props.dragRange[0] > -1
+  //   && props.dragRange[1] > -1
+  //   && props.idx >= props.dragRange[0] + props.startDay - 1
+  //   && props.idx <= props.dragRange[1] + props.startDay - 1
+  // ) {
+  //   return COLOR_SELECT
+  // }
 
-  if (
-    props.dragRange[0] > -1
-    && props.dragRange[1] > -1
-    && props.idx >= props.dragRange[0] + props.startDay - 1
-    && props.idx <= props.dragRange[1] + props.startDay - 1
-  ) {
-    return COLOR_SELECT
-  }
-
-  return "";
+  // return "";
 }
 
 const getRadiusByStart = (props) => {
@@ -63,7 +63,7 @@ const CellForm = styled.div`
   box-sizing: border-box;
   color: ${(props) => getColos(props)};
   font-weight: 900;
-  background-color: ${props => props.hover && !props.disable ? isRange(props) : !props.header? BACKGROUND_DISABLE: ""};
+  background-color: ${props => props.hover && !props.disable ? isSelect(props) : !props.header? BACKGROUND_DISABLE: ""};
   
   border-top-left-radius: ${getRadiusByStart};
   border-bottom-left-radius: ${getRadiusByStart};
@@ -103,7 +103,7 @@ const Cell = (props) => {
         {...props}
         onMouseUp={onDragEnd}
         onMouseDown={onDragStart}
-        // onClick={onClick}
+        onClick={onClick}
       >
         {props.children || ""}
       </CellForm>

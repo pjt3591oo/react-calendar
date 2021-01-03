@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import {
   getFirstDayByMonth,
+  getPrevMonthDate,
   daysMap, getCountDaysByMonth,
   format_YYYYMMDD,
   leftBig,rightBig,
@@ -26,6 +27,7 @@ const Calendar = props => {
     setDaysCnt(getCountDaysByMonth(focusDate[0]));
     setDragRange([-1, -1]);
     props.onSelectDate(focusDate)
+    props.onSelectDates([focusDate[0], focusDate[0]])
   }, [focusDate])
   
   useEffect(() => {
@@ -83,6 +85,11 @@ const Calendar = props => {
     return isBefore || isAfter || isDisableDates
   }
 
+  const _isSelect = _day => {
+    let d = _converDate(_day)
+    return leftBig(d, props.selectDates[0]) && leftBig(props.selectDates[1], d)
+  }
+
   const isStart = idx => {
     let target = _converDate(idx)
     let start = props.selectDates.length && props.selectDates[0]
@@ -98,7 +105,7 @@ const Calendar = props => {
   }
 
   const _isDragEnd = () => dragRange[0] > -1  && dragRange[1] > -1
-
+  const _isClick = () => props.selectDates[0] === props.selectDates[1]
   const getDay = idx => idx - startDay + 1
 
   return (
@@ -132,8 +139,8 @@ const Calendar = props => {
                   idx={idx} 
                   hover={true}
                   startDay={startDay}
-                  dragRange={dragRange}
                   disable={_isDisable( getDay(idx))}
+                  isSelect={_isSelect(getDay(idx))}
                   onDragStart={onDragStartHandler}
                   onDragEnd={onDragEndHandler}
                   onSelectDate={onSelectDate}

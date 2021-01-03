@@ -4,9 +4,10 @@ import {
   getToday
 } from './utils/date';
 
-import CalendarModal from './components/templetes/calendarModal';
+import Calendar from './components/templetes/calendar';
 
 function App() {
+  const [isShow, setIsShow] = useState(false);
   const [selectDate, setSelectDate] = useState(getToday());
   const [selectDates, setSelectDates] = useState([]);
   
@@ -25,17 +26,20 @@ function App() {
 
   return (
     <div className="App">
-      <CalendarModal 
-        onSelectDate={date=>setSelectDate(date)}
-        onSelectDates={dates => setSelectDates(dates)}
-        // selectDate={selectDate}
-        // selectDates={selectDates}
-        // beforeDisablePoint={beforeDisablePoint}
-        // afterDisablePoint={afterDisablePoint}
-        // disableDates={disableDates}
-      />
 
       <h1>{selectDate[0]}</h1>
+      <button onClick={() => setIsShow(true)} >달력보기</button>
+      <div style={{display: isShow? "block": "none"}}>
+        <Calendar 
+          onSelectDate={date => setSelectDate(date)}
+          onSelectDates={dates => setSelectDates(dates)}
+          selectDate={selectDate}
+          selectDates={selectDates}
+          beforeDisablePoint={beforeDisablePoint}
+          afterDisablePoint={afterDisablePoint}
+          disableDates={disableDates}
+        />
+      </div>
     </div>
   );
 }
