@@ -6,15 +6,18 @@ import {
   getFirstDayByMonth,
   daysMap, getCountDaysByMonth,
   format_YYYYMMDD,
-  leftBig
+  leftBig,rightBig
 } from '../../utils/date';
 
 import Nav from './nav';
 import Row from './row';
 import Cell, {EmptyCell} from './cell';
 
+/*
+  props
+    selectDate: [date(str), date(str) | 0] => [1] 0일 땐 클릭
 
-
+*/
 const Calendar = props => {
   let [focusDate, setFocusDate] = useState(props.selectDate);
   let [startDay, setStartDay] = useState(getFirstDayByMonth(props.selectDate[0]));
@@ -30,8 +33,9 @@ const Calendar = props => {
   }, [focusDate])
   
   useEffect(() => {
+    console.log('useEffect', _isDragEnd(), !_isClick(), dragRange )
     _isDragEnd()
-      && !_isClick() 
+      // && !_isClick() 
       && props.onSelectDates(dragRange.map(day => _converDate(day)));
   }, [dragRange])
 
@@ -39,15 +43,20 @@ const Calendar = props => {
 
   const onClickByPrevHandler = prevDate => setFocusDate(prevDate)
   const onClickByNextHandler = nextDate => setFocusDate(nextDate)
-  const onDragStartHandler = startDay => setDragRange([startDay, -1])
+  const onDragStartHandler = startDay => {
+    console.log('onDragStartHandler')
+    setDragRange([startDay, -1])
+  }
   const onDragEndHandler = endDay => {
     let temp = [...dragRange]
-    if (dragRange[0] <= endDay) {
+    if (dragRange[0] < endDay) {
       temp[1] = endDay
     }else {
       temp = [endDay].concat([temp[0]])
     }
     setDragRange(temp)
+    // console.log(temp)
+    // props.onSelectDates(temp)
   }
 
   const onSelectDate = day => {
@@ -68,8 +77,24 @@ const Calendar = props => {
     return is
   }
 
+  const isStart = idx => {
+    let target = `${focusDate[0].split('-').slice(0, 2).join('-')}-${idx.toString().padStart(2, '0')}`
+    let start = props.selectDates.length && props.selectDates[0]
+    
+    return start === target;
+  }
+  
+  const isEnd = idx => {
+    let target = `${focusDate[0].split('-').slice(0, 2).join('-')}-${idx.toString().padStart(2, '0')}`
+    let end = props.selectDates.length > 1 && props.selectDates[1]
+
+    return target === end;
+  }
+
   const _isClick = () => dragRange[0] === dragRange[1]
   const _isDragEnd = () => dragRange[0] > -1  && dragRange[1] > -1
+
+  const getDay = idx => idx - startDay + 1
 
   return (
     <div style={{ 
@@ -103,11 +128,13 @@ const Calendar = props => {
                   hover={true}
                   startDay={startDay}
                   dragRange={dragRange}
-                  disable={_isDisable( idx-startDay + 1)}
+                  disable={_isDisable( getDay(idx))}
                   onDragStart={onDragStartHandler}
                   onDragEnd={onDragEndHandler}
                   onSelectDate={onSelectDate}
-                >{idx-startDay + 1}</Cell>
+                  isStart={isStart(getDay(idx))}
+                  isEnd={isEnd(getDay(idx))}
+                >{getDay(idx)}</Cell>
               ) 
               : (
                 <EmptyCell />

@@ -24,6 +24,7 @@ function CalendarModal(props) {
           onSelectDate={props.onSelectDate}
           onSelectDates={props.onSelectDates}
           selectDate={props.selectDate}
+          selectDates={props.selectDates}
           beforeDisablePoint={props.beforeDisablePoint}
           afterDisablePoint={props.afterDisablePoint}
         />

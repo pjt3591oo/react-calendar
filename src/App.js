@@ -30,6 +30,7 @@ function App() {
         onSelectDate={date=>setSelectDate(date)}
         onSelectDates={dates => setSelectDates(dates)}
         selectDate={selectDate}
+        selectDates={selectDates}
         beforeDisablePoint={beforeDisablePoint}
         // afterDisablePoint={afterDisablePoint}
         // disableDates={disableDates}

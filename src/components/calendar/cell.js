@@ -9,8 +9,8 @@ const COLOR_RED = "#B6001A"
 const COLOR_BLUE = "#174491"
 const COLOR_BLACK = "#000"
 
-const SELECT_COLOR = "#E3EBF6"
-const DISABLE_COLOR = "black";
+const COLOR_SELECT = "#E3EBF6"
+const COLOR_DISABLE = "E7E7E7";
 
 const getColos = (props) => {
   if (!props.idx || !((props.idx - 0) % 7)) {
@@ -30,10 +30,20 @@ const isRange = (props) => {
     && props.idx >= props.dragRange[0] + props.startDay - 1
     && props.idx <= props.dragRange[1] + props.startDay - 1
   ) {
-    return SELECT_COLOR
+    return COLOR_SELECT
   }
 
   return "";
+}
+
+const getRadiusByStart = (props) => {
+  if (props.isStart) return "40px";
+  else return "";
+}
+
+const getRadiusByEnd = (props) => {
+  if (props.isEnd) return "40px";
+  else return "";
 }
 
 export const EmptyCell = styled.div`
@@ -48,14 +58,20 @@ const CellForm = styled.div`
   box-sizing: border-box;
   color: ${(props) => getColos(props)};
   font-weight: 900;
-  background-color: ${props => props.hover && !props.disable ? isRange(props) : !props.header? DISABLE_COLOR: ""};
+  background-color: ${props => props.hover && !props.disable ? isRange(props) : !props.header? COLOR_DISABLE: ""};
   
+  border-top-left-radius: ${getRadiusByStart};
+  border-bottom-left-radius: ${getRadiusByStart};
+
+  border-top-right-radius: ${props => getRadiusByEnd};
+  border-bottom-right-radius: ${props => getRadiusByEnd};
+
   display: flex;
   align-items: center;
   justify-content: center;
-
+  margin-top: 5px;
   &:hover{
-    background-color: ${(props) => props.hover && !props.disable ? SELECT_COLOR : ""};
+    background-color: ${(props) => props.hover && !props.disable ? COLOR_SELECT : ""};
   }
 `
 
@@ -76,14 +92,13 @@ const Cell = (props) => {
 
   const msg = () =>alert("해당 날짜는 선택할 수 없습니다.");
   
-
   if (props.hover) {
     return (
       <CellForm
         {...props}
         onMouseUp={onDragEnd}
         onMouseDown={onDragStart}
-        onClick={onClick}
+        // onClick={onClick}
       >
         {props.children || ""}
       </CellForm>

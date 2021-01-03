@@ -5,7 +5,7 @@ const Row = (props) => {
     width: "100%",
     display: "flex",
     flexWrap: "wrap",
-    textAlign: "center"
+    textAlign: "center",
   }
   return (
     <div
