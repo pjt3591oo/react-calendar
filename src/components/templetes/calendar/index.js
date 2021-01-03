@@ -10,10 +10,10 @@ function CalendarTemplete(props) {
   
   return (
     <Calendar 
-      onSelectDate={props.onSelectDate}
-      onSelectDates={props.onSelectDates}
+      onSelectDate={props.onSelectDate || function () {}}
+      onSelectDates={props.onSelectDates || function () {}}
       selectDate={props.selectDate || getToday()}
-      selectDates={props.selectDates || []}
+      selectDates={props.selectDates || [getToday()[0], getToday()[0]]}
       beforeDisablePoint={props.beforeDisablePoint || ""}
       afterDisablePoint={props.afterDisablePoint || ""}
       disableDates={props.disableDates || []}
