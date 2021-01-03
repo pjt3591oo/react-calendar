@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-
 import {
   getFirstDayByMonth,
   daysMap, getCountDaysByMonth,
   format_YYYYMMDD,
-  leftBig,rightBig
+  leftBig,rightBig,
+  getRangeDates
 } from '../../utils/date';
 
 import Nav from './nav';
@@ -14,9 +13,6 @@ import Row from './row';
 import Cell, {EmptyCell} from './cell';
 
 /*
-  props
-    selectDate: [date(str), date(str) | 0] => [1] 0일 땐 클릭
-
 */
 const Calendar = props => {
   let [focusDate, setFocusDate] = useState(props.selectDate);
@@ -33,7 +29,6 @@ const Calendar = props => {
   }, [focusDate])
   
   useEffect(() => {
-    console.log('useEffect', _isDragEnd(), !_isClick(), dragRange )
     _isDragEnd()
       // && !_isClick() 
       && props.onSelectDates(dragRange.map(day => _converDate(day)));
@@ -44,7 +39,6 @@ const Calendar = props => {
   const onClickByPrevHandler = prevDate => setFocusDate(prevDate)
   const onClickByNextHandler = nextDate => setFocusDate(nextDate)
   const onDragStartHandler = startDay => {
-    console.log('onDragStartHandler')
     setDragRange([startDay, -1])
   }
   const onDragEndHandler = endDay => {
@@ -54,9 +48,17 @@ const Calendar = props => {
     }else {
       temp = [endDay].concat([temp[0]])
     }
-    setDragRange(temp)
-    // console.log(temp)
-    // props.onSelectDates(temp)
+    
+    let convertedDates = temp.map(day => _converDate(day))
+    let isDisableIncludes = getRangeDates(convertedDates[0], convertedDates[1]).filter(day => props.disableDates.includes(day))
+    
+    if (!isDisableIncludes.length) {
+      setDragRange(temp)
+    } else {
+      alert("해당 날짜는 선택할 수 없습니다.")
+      setDragRange([-1, -1])
+    }
+
   }
 
   const onSelectDate = day => {
@@ -73,25 +75,28 @@ const Calendar = props => {
 
   const _isDisable = _day => {
     if (!props.beforeDisablePoint) return false;
-    let is = leftBig(props.beforeDisablePoint, _converDate(_day))
-    return is
+    let d = _converDate(_day)
+    let isBefore = leftBig(props.beforeDisablePoint, d);
+    let isAfter = rightBig(props.afterDisablePoint, d);
+    let isDisableDates = props.disableDates.includes(d)
+
+    return isBefore || isAfter || isDisableDates
   }
 
   const isStart = idx => {
-    let target = `${focusDate[0].split('-').slice(0, 2).join('-')}-${idx.toString().padStart(2, '0')}`
+    let target = _converDate(idx)
     let start = props.selectDates.length && props.selectDates[0]
     
     return start === target;
   }
   
   const isEnd = idx => {
-    let target = `${focusDate[0].split('-').slice(0, 2).join('-')}-${idx.toString().padStart(2, '0')}`
+    let target = _converDate(idx)
     let end = props.selectDates.length > 1 && props.selectDates[1]
 
     return target === end;
   }
 
-  const _isClick = () => dragRange[0] === dragRange[1]
   const _isDragEnd = () => dragRange[0] > -1  && dragRange[1] > -1
 
   const getDay = idx => idx - startDay + 1

@@ -11,8 +11,8 @@ function App() {
   const [selectDates, setSelectDates] = useState([]);
   
   const [beforeDisablePoint] = useState(selectDate[0]);
-  const [afterDisablePoint] = useState("2020-11-21");
-  const [disableDates] = useState([]);
+  const [afterDisablePoint] = useState("2021-01-21");
+  const [disableDates] = useState(["2021-01-13"]);
 
   useEffect(() => {
     console.log('click select: ', selectDate)
@@ -26,12 +26,11 @@ function App() {
   return (
     <div className="App">
       <CalendarModal 
-        value={selectDate} 
         onSelectDate={date=>setSelectDate(date)}
         onSelectDates={dates => setSelectDates(dates)}
-        selectDate={selectDate}
-        selectDates={selectDates}
-        beforeDisablePoint={beforeDisablePoint}
+        // selectDate={selectDate}
+        // selectDates={selectDates}
+        // beforeDisablePoint={beforeDisablePoint}
         // afterDisablePoint={afterDisablePoint}
         // disableDates={disableDates}
       />

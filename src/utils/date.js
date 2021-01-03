@@ -7,6 +7,8 @@ import sunMonths from 'date-fns/subMonths';
 
 import format from 'date-fns/format';
 import compareAsc from 'date-fns/compareAsc';
+import eachDayOfInterval from 'date-fns/eachDayOfInterval';
+
 
 import { ko } from 'date-fns/locale';
 
@@ -32,6 +34,14 @@ export function getFirstDayByMonth(focusDate) {
   let startDay = startOfMonth(new Date(focusDate));
 
   return getDay(startDay);
+}
+
+// 시작 ~ 마지막 날짜를 전달 받으면 그 사이의 날짜를 반환한다.
+export function getRangeDates(startDate, endDate) {
+  return eachDayOfInterval({
+    start: new Date(startDate),
+    end: new Date(endDate),
+  }).map(date => format(new Date(date), FORMAT_DATE));
 }
 
 // 해당 달의 날짜

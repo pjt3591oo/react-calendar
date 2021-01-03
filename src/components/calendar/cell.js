@@ -10,15 +10,20 @@ const COLOR_BLUE = "#174491"
 const COLOR_BLACK = "#000"
 
 const COLOR_SELECT = "#E3EBF6"
-const COLOR_DISABLE = "E7E7E7";
+const COLOR_DISABLE = "#E7E7E7";
+
+const BACKGROUND_DISABLE = "";
 
 const getColos = (props) => {
-  if (!props.idx || !((props.idx - 0) % 7)) {
+  if( props.disable) {
+    return COLOR_DISABLE
+  }
+  if (!props.idx || !((props.idx - 0) % 7)) { // 일요일 검사
     return COLOR_RED ;
-  } else if (!((props.idx - 6) % 7)) {
+  } else if (!((props.idx - 6) % 7)) { // // 토요일 검사
     return COLOR_BLUE ;
   } else {
-    return !props.disable ? COLOR_BLACK: "white";
+    return COLOR_BLACK ;
   }
 }
 
@@ -58,7 +63,7 @@ const CellForm = styled.div`
   box-sizing: border-box;
   color: ${(props) => getColos(props)};
   font-weight: 900;
-  background-color: ${props => props.hover && !props.disable ? isRange(props) : !props.header? COLOR_DISABLE: ""};
+  background-color: ${props => props.hover && !props.disable ? isRange(props) : !props.header? BACKGROUND_DISABLE: ""};
   
   border-top-left-radius: ${getRadiusByStart};
   border-bottom-left-radius: ${getRadiusByStart};

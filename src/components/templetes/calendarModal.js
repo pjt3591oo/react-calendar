@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+import {
+  getToday
+} from '../../utils/date';
+
 import Calendar from '../calendar';
 
 function CalendarModal(props) {
@@ -16,17 +20,17 @@ function CalendarModal(props) {
     top: "50%", 
     transform: "translateY(-50%)"
   }
-
   return (
     <div>
       <div style={wrapStyle}>
         <Calendar 
           onSelectDate={props.onSelectDate}
           onSelectDates={props.onSelectDates}
-          selectDate={props.selectDate}
-          selectDates={props.selectDates}
-          beforeDisablePoint={props.beforeDisablePoint}
-          afterDisablePoint={props.afterDisablePoint}
+          selectDate={props.selectDate || getToday()}
+          selectDates={props.selectDates || []}
+          beforeDisablePoint={props.beforeDisablePoint || ""}
+          afterDisablePoint={props.afterDisablePoint || ""}
+          disableDates={props.disableDates || []}
         />
       </div>
 
