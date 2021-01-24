@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
 import {
-  getToday
+  getToday, getPrevDay, getNextDay
 } from './utils/date';
 
-import Calendar from './components/templetes/calendar';
+import Calendar, { DatePicker } from './components/templetes/calendar';
 
 function App() {
   const [isShow, setIsShow] = useState(false);
   const [selectDate, setSelectDate] = useState(getToday());
   const [selectDates, setSelectDates] = useState([]);
   
-  const [beforeDisablePoint] = useState(selectDate[0]);
-  const [afterDisablePoint] = useState("2021-01-21");
+  const [beforeDisablePoint] = useState(getPrevDay(selectDate[0], 10)[0]);
+  const [afterDisablePoint] = useState(getNextDay(selectDate[0], 10)[0]);
   const [disableDates] = useState(["2021-01-13"]);
 
   useEffect(() => {
@@ -23,12 +23,10 @@ function App() {
     console.log('drag select: ', selectDates)
   }, [selectDates])
 
-
   return (
     <div className="App">
-
       <h1>{selectDate[0]}</h1>
-      <button onClick={() => setIsShow(true)} >달력보기</button>
+      <button onClick={() => setIsShow(!isShow)} >달력보기</button>
       <div style={{display: isShow? "block": "none"}}>
         <Calendar 
           onSelectDate={date => setSelectDate(date)}
@@ -40,6 +38,19 @@ function App() {
           disableDates={disableDates}
         />
       </div>
+
+      <div> 
+         <DatePicker 
+            onChange={date => setSelectDate(date)}
+            value={selectDate}
+            min={beforeDisablePoint}
+            max={afterDisablePoint}
+            disableDates={disableDates}
+            width={520}
+         />
+      </div>
+
+      <input type="date" />
     </div>
   );
 }

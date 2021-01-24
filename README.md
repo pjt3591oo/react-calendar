@@ -1,5 +1,7 @@
 # 달력
 
+* Default
+
 ```jsx
 <Calendar 
   onSelectDate={date => setSelectDate(date)}
@@ -21,6 +23,29 @@
 | beforeDisablePoint|    date   |  해당 날짜를 기준으로 이전날짜 비활성화 | "" |
 | afterDisablePoint| date | 해당 날짜를 기준으로 이후날짜 비활성화 |    "" |
 | disableDates|  [date, date, ...] | 비활성화 날짜 목록 | [] |
+
+
+* Date Picker
+
+```jsx
+<DatePicker 
+  onChange={date => setSelectDate(date)}
+  value={selectDate}
+  min={beforeDisablePoint}
+  max={afterDisablePoint}
+  disableDates={disableDates}
+  width={520}
+/>
+```
+
+| Key   |      Type      |  Desc |  Default |
+|----------|:-------------|:------|------:|
+| onSelectDate|  ([date, number]) => {} | 셀 선택시 선택된 날짜 | () => {} |
+| value| [date, number] |   여기에 포함된 날짜는 화면에 표시된다. [선택된 날짜, 요일번호] | [오늘날짜, 오늘요일번호] |
+| min|    date   |  해당 날짜를 기준으로 이전날짜 비활성화 | "" |
+| max| date | 해당 날짜를 기준으로 이후날짜 비활성화 |    "" |
+| disableDates|  [date, date, ...] | 비활성화 날짜 목록 | [] |
+| width|  number | 팝업달력 너비 | 520 |
 
 요일번호는 다음과 같이 정의한다.
 

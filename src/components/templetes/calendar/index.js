@@ -4,6 +4,7 @@ import {
   getToday
 } from '../../../utils/date';
 
+import DatePicker from './datepicker';
 import Calendar from '../../calendar';
 
 function CalendarTemplete(props) {
@@ -19,6 +20,10 @@ function CalendarTemplete(props) {
       disableDates={props.disableDates || []}
     />
   );
+}
+
+export {
+  DatePicker
 }
 
 export default CalendarTemplete;

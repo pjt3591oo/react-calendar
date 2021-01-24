@@ -13,7 +13,7 @@ const dateStyle = {
 const buttonStyle = {
   boxSizing: "border-box",
   padding: 10,
-  backgroundColor: "#e8e8e8",
+  backgroundColor: "#EFEFEF",
   border: 0,
   width: 36,
   height: 36,
@@ -45,6 +45,7 @@ const Nav = (props) => {
         <button
           style={buttonStyle}
           onClick={onClickByPrevHandler}
+          ref={props.leftNavRef}
         >
           {"<"}
         </button>
@@ -58,6 +59,7 @@ const Nav = (props) => {
         <button
           style={buttonStyle}
           onClick={onClickByNextHandler}
+          ref={props.rightNavRef}
         >
           {">"}
         </button>

@@ -76,13 +76,16 @@ const Calendar = props => {
   }
 
   const _isDisable = _day => {
-    if (!props.beforeDisablePoint) return false;
     let d = _converDate(_day)
-    let isBefore = leftBig(props.beforeDisablePoint, d);
-    let isAfter = rightBig(props.afterDisablePoint, d);
-    let isDisableDates = props.disableDates.includes(d)
 
-    return isBefore || isAfter || isDisableDates
+    let isBefore = props.beforeDisablePoint ? leftBig(props.beforeDisablePoint, d ) : false;
+    if (isBefore) return true
+    
+    let isAfter = props.afterDisablePoint ? leftBig(d, props.afterDisablePoint) : false;
+    if(isAfter) return true
+
+    let isDisableDates = props.disableDates.includes(d)
+    return isDisableDates
   }
 
   const _isSelect = _day => {
@@ -118,6 +121,8 @@ const Calendar = props => {
         focusDate={focusDate}
         onClickByPrevHandler = {onClickByPrevHandler}
         onClickByNextHandler = {onClickByNextHandler}
+        leftNavRef={props.leftNavRef}
+        rightNavRef={props.rightNavRef}
       />
       
       <Row>
@@ -139,7 +144,7 @@ const Calendar = props => {
                   idx={idx} 
                   hover={true}
                   startDay={startDay}
-                  disable={_isDisable( getDay(idx))}
+                  disable={_isDisable(getDay(idx))}
                   isSelect={_isSelect(getDay(idx))}
                   onDragStart={onDragStartHandler}
                   onDragEnd={onDragEndHandler}

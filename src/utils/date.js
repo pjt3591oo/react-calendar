@@ -2,8 +2,11 @@ import getDay from 'date-fns/getDay';
 import startOfMonth from 'date-fns/startOfMonth';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
 
+import sub from 'date-fns/subDays';
+import add from 'date-fns/addDays';
+
 import addMonths from 'date-fns/addMonths';
-import sunMonths from 'date-fns/subMonths';
+import subMonth from 'date-fns/subMonths';
 
 import format from 'date-fns/format';
 import compareAsc from 'date-fns/compareAsc';
@@ -51,9 +54,28 @@ export function getCountDaysByMonth(focusDate) {
 
 // 전달 날짜
 export function getPrevMonthDate(focusDate) {
-  let prevDate = sunMonths(new Date(focusDate), 1)
+  let prevDate = subMonth(new Date(focusDate), 1)
   let convertedFormat = format(prevDate, FORMAT_DATE, {locale: ko});
   return [convertedFormat, getDay(prevDate)];
+}
+
+export function getPrevDay(d, n = 1) {
+  const prevDate = format(new Date(sub(new Date(d), n)), FORMAT_DATE, {
+    locale: ko,
+  });
+  const dayOfWeekNum = new Date(prevDate).getDay();
+
+  const dayOfWeek = daysMap[dayOfWeekNum];
+  return [prevDate, dayOfWeekNum];
+}
+export function getNextDay(d, n = 1) {
+  const prevDate = format(new Date(add(new Date(d), n)), FORMAT_DATE, {
+    locale: ko,
+  });
+  const dayOfWeekNum = new Date(prevDate).getDay();
+
+  const dayOfWeek = daysMap[dayOfWeekNum];
+  return [prevDate, dayOfWeekNum];
 }
 
 // 다음달 날짜
