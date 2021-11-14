@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   getToday
-} from '../../../utils/date';
+} from '../../utils/date';
 
 import DatePicker from './datepicker';
 import Calendar from '../../calendar';

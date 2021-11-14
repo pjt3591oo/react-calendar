@@ -3,7 +3,7 @@ import React from 'react';
 import {
   daysMap,
   getPrevMonthDate, getNextMonthDate
-} from '../../utils/date';
+} from '../utils/date';
 
 const dateStyle = {
   boxSizing: "border-box",

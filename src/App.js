@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import {
   getToday, getPrevDay, getNextDay
-} from './utils/date';
+} from './components/utils/date';
 
 import Calendar, { DatePicker } from './components/templetes/calendar';
 

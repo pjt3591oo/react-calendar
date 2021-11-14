@@ -1,6 +1,6 @@
 {
   "name": "@mung-office/calendar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -44,10 +44,13 @@
   "babel": {
     "presets": [
       "@babel/preset-react"
-    ]
+    ],
+    "plugins": ["@babel/plugin-proposal-optional-chaining"]
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.16.0",
     "@babel/preset-react": "^7.16.0"
   }
 }

@@ -7,7 +7,7 @@ import {
   format_YYYYMMDD,
   leftBig,rightBig,
   getRangeDates
-} from '../../utils/date';
+} from '../utils/date';
 
 import Nav from './nav';
 import Row from './row';

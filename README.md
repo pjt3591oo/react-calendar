@@ -8,6 +8,10 @@ $ npm i @mung-office/calendar
 
 ### 👉 Usage
 
+```jsx
+import { Calendar, DatePicker } from '@mung-office/calendar';
+```
+
 * Default
 
 ```jsx

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import {getToday, getPrevDay } from '../../../utils/date';
+import {getToday, getPrevDay } from '../../utils/date';
 
 import Calendar from '../../calendar';
 
