@@ -1,7 +1,9 @@
 {
-  "name": "calendar",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@mung-office/calendar",
+  "version": "0.0.2",
+  "private": false,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -19,8 +21,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build",
-    "predeploy": "npm run build"
+    "deploy:gh-pages:": "gh-pages -d build",
+    "predeploy:gh-pages:": "npm run build",
+    "publish:npm": "rm -rf dist && mkdir dist && babel src/components -d dist --copy-files",
+    "deploy:npm": "npm publish --access=public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +40,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/preset-react": "^7.16.0"
   }
 }

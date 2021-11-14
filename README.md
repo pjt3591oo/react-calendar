@@ -1,5 +1,13 @@
 # 달력
 
+### 👉 Installation
+
+```bash
+$ npm i @mung-office/calendar
+```
+
+### 👉 Usage
+
 * Default
 
 ```jsx
